@@ -19,7 +19,12 @@ from train_clutter_extractor_head import AE_Module
 
 matplotlib.use('TkAgg')
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
+elif torch.cuda.is_available():
+    device = torch.device("cuda")
+else:
+    device = torch.device("cpu")
 
 test_dataset = torch.load('../data/test_dataset_head.pt', weights_only=False)
 
